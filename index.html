@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+
+    <style>
+        body{
+            overflow-y: hidden;
+            overflow-x: hidden;
+            margin: 0;
+            font-family: 'Times New Roman', Times, serif;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('moon-image.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form{
+            width: 25rem;
+            height: 30rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+        }
+        .form h1{
+            font-size: 1.5rem;
+            font-weight: 100;
+            text-align: center;
+            padding: 2rem 0 0 1rem;
+        }
+        .form h2{
+            font-size: 1rem;
+            font-weight: 200;
+            position: relative;
+            left: 2rem;
+        }
+        .form input{
+            width: 18rem;
+            height: 1.5rem;
+            font-size: 1rem;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 100;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-style: none;
+            border-radius: 5px;
+            position: relative;
+            left: 3rem;
+        }
+        
+        .form a{
+            color: black;
+            text-decoration: none;
+        }
+        
+        .login-forgot-pass{
+            padding: 2rem 0 0 2rem;
+            display: block;
+        }
+        .login-sign-up{
+            display: block;
+            padding: 1rem 0 0 2rem;
+        }
+        .login-submit{
+            display: block;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-style: none;
+            padding: 0.5rem 0.7rem;
+            border-radius: 5px;
+            margin-left: auto;
+            position: relative;
+            right: 4rem;
+            top: 1rem;
+        }
+        .sign-up-forgot-pass{
+            display: block;
+            padding: 1rem;
+        }
+        .sign-up-login{
+            display: block;
+            padding-left: 1rem;
+        }
+        .sign-up-submit{
+            display: block;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-style: none;
+            padding: 0.5rem 0.7rem;
+            border-radius: 5px;
+            margin-left: auto;
+            position: relative;
+            right: 4rem;
+            top: 1rem;
+        }
+        .forgot-pass-conform{
+            display: block;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-style: none;
+            padding: 0.5rem 0.7rem;
+            border-radius: 5px;
+            margin-left: auto;
+            position: relative;
+            right: 4rem;
+            top: 1rem;
+        }
+        .retrieved-password-css{
+            padding: 0 0 0 1rem;
+        }
+        .forgot-pass-login{
+            display: block;
+            padding: 2rem 0 0 2rem;
+        }
+        .forgot-pass-sign-in{
+            display: block;
+            padding: 1rem 0 0 2rem;
+        }
+        .hidden{
+            display: none;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="form" id="login-form">
+        <h1>Login</h1>
+        <h2>username</h2>
+        <input type="text" id="login-username">
+        <h2>password</h2>
+        <input type="password" id="login-password">
+        <button onclick="login()" class="login-submit">submit</button>
+        <a onclick="event.preventDefault(); showform('forgot-pass-form')" class="login-forgot-pass" href="">forgot password?</a>
+        <a onclick="event.preventDefault(); showform('sign-up-form')" class="login-sign-up" href="">sign up?</a>
+    </div>
+
+    <div class="form hidden" id="sign-up-form">
+        <h1>Sign Up</h1>
+        <h2>username</h2>
+        <input type="text" id="signup-username">
+        <h2>password</h2>
+        <input type="password" id="signup-password1">
+        <h2>re-type password</h2>
+        <input type="password" id="signup-password2">
+        <button onclick="signup()" class="sign-up-submit">submit</button>
+        <a onclick="event.preventDefault(); showform('forgot-pass-form')" class="sign-up-forgot-pass" href="">forgot password?</a>
+        <a onclick="event.preventDefault(); showform('login-form')" class="sign-up-login" href="">login in?</a>
+    </div>
+
+    <div class="form hidden" id="forgot-pass-form">
+        <h1>Forgot password</h1>
+        <h2>username</h2>
+        <input type="text" id="forgot-username">
+        <p class="retrieved-password-css" id="retrieved-password"></p>
+        <button onclick="retrievepassword()" class="forgot-pass-conform">Conform</button>
+        <a onclick="event.preventDefault(); showform('login-form')" class="forgot-pass-login" href="">login?</a>
+        <a onclick="event.preventDefault(); showform('sign-up-form')" class="forgot-pass-sign-in" href="">sign up?</a>
+    </div>
+
+    <script>
+        
+      function showform(formId) {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('sign-up-form').classList.add('hidden');
+            document.getElementById('forgot-pass-form').classList.add('hidden');
+            document.getElementById(formId).classList.remove('hidden');
+        }
+
+        function signup() {
+            let username = document.getElementById("signup-username").value;
+            let password1 = document.getElementById("signup-password1").value;
+            let password2 = document.getElementById("signup-password2").value;
+
+            if (username === "" || password1 === "" || password2 === "") {
+                alert("Please enter a username and password.");
+                return;
+            }
+            if(password1!=password2){
+                alert("password must match");
+                return;
+            }
+            
+            localStorage.setItem(username, password1);
+            document.getElementById("signup-username").value="";
+            document.getElementById("signup-password1").value="";
+            document.getElementById("signup-password2").value="";
+
+            alert("Sign up successful! You can now log in.");
+            showform("login-form");
+        }
+
+        function login() {
+            let username = document.getElementById("login-username").value;
+            let password = document.getElementById("login-password").value;
+
+            let storedPassword = localStorage.getItem(username);
+            if (storedPassword === null) {
+                alert("User not found. Please sign up.");
+            } 
+            else if (storedPassword !== password) {
+                alert("Incorrect password!");
+            } 
+            else {
+                alert("Login successful!");
+            }
+            document.getElementById("login-username").value="";
+            document.getElementById("login-password").value="";
+        }
+
+        function retrievepassword() {
+            let username = document.getElementById("forgot-username").value;
+            let storedPassword = localStorage.getItem(username);
+
+            if (storedPassword === null) {
+                document.getElementById("retrieved-password").innerText = "User not found.";
+            } 
+            else {
+                document.getElementById("retrieved-password").innerText = "Your password is: " + storedPassword;
+            }
+            document.getElementById("forgot-username").value="";
+            setTimeout(()=>{
+                document.getElementById("retrieved-password").innerText="";
+            },10000)
+
+        }
+
+
+
+    </script>
+</body>
+</html>
